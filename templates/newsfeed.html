@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<h1 class="loda"><small>Welcome  {{session.email}}</small></h1>
+	{% from "includes/_formhelpers.html" import render_field %}
+	<form method="POST" action="">
+		<div class="form-group">
+			{{render_field(form.post, class_="form-control")}}
+		</div>
+		<p><input type="submit" class="btn btn-primary" value="Submit"> </p>
+	</form>
+
+	{% if articles %}
+		{% for post in articles %}
+			<div class="jumbotron">
+				<h4 class="display-4"><small>{{post.email}}</small></h4>
+				<p class="lead"><small>{{post.text}}</small></p>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+{% endblock %}

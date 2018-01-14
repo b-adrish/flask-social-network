@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Creative Social Network Title</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+		<script type="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+		<style> .loda {margin-top: 25%} </style>
+	</head>
+	<body>
+		{% include 'includes/_navbar.html' %}
+		<div class="container">
+		{% include "includes/_messages.html" %}
+		{%block body %} {% endblock %}
+		</div>
+	</body>
+</html>
