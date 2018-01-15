@@ -130,6 +130,13 @@ def newsfeed():
 			db.session.commit()
 			app.logger.info('fuck yeah')
 
+		if request.method == "POST" and 'del' in request.form:
+			app.logger.info(request.form['del'])
+			val = int(request.form['del'])
+			Articles.query.filter_by(id=val).delete()
+			db.session.commit()
+			app.logger.info("Deteled Post id = %s" %str(val))
+
 		posts = Articles.query.all()
 		app.logger.info(posts)
 			

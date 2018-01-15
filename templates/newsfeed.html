@@ -15,6 +15,12 @@
 			<div class="jumbotron">
 				<h4 class="display-4"><small>{{post.email}}</small></h4>
 				<p class="lead"><small>{{post.text}}</small></p>
+				{% if session.email == post.email %}
+				<form method="POST" action="">
+					<input type="hidden" name="del" value={{post.id}}>
+					<p><input type="submit" class="btn" value="Delete This Post"></p>
+				</form>
+				{% endif %}
 			</div>
 		{% endfor %}
 	{% endif %}
