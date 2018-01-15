@@ -3,9 +3,18 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from flask_sqlalchemy import SQLAlchemy 
 from functools import wraps
-
+from flask.ext.cache import Cache
+import time 
 
 app = Flask(__name__)
+
+cache = Cache(app, config={
+    'CACHE_TYPE': 'redis',
+    'CACHE_KEY_PREFIX': 'fcache',
+    'CACHE_REDIS_HOST': 'localhost',
+    'CACHE_REDIS_PORT': '6379',
+    'CACHE_REDIS_URL': 'redis://localhost:6379'
+    })
 
 app.secret_key = "super secret key"
 
@@ -116,6 +125,14 @@ def is_logged_in(f):
 	return wrap
 
 
+
+@cache.memoize(timeout=30)
+def return_nf():
+	posts = Articles.query.all()
+	app.logger.info("Fetched from DB")
+	return posts 
+
+
 @app.route('/newsfeed', methods=['GET', 'POST'])
 @is_logged_in
 def newsfeed():
@@ -136,9 +153,7 @@ def newsfeed():
 			Articles.query.filter_by(id=val).delete()
 			db.session.commit()
 			app.logger.info("Deteled Post id = %s" %str(val))
-
-		posts = Articles.query.all()
-		app.logger.info(posts)
+		posts = return_nf()
 			
 	else:
 		app.logger.info("NONE")
